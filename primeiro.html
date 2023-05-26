@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Primeiro | Lembra da ?</title>
+  <style>
+    /* Estilos CSS */
+  </style>
+  <script>
+    window.onload = function() {
+      var urlParams = new URLSearchParams(window.location.search);
+      if (urlParams.has('bic')) {
+        window.location.href = 'segundo.html';
+      }
+    }
+  </script>
+</head>
+<body>
+  <p>Caneta mais famosa do Brasil</p>
+</body>
+</html>
