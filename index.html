@@ -24,15 +24,14 @@
   </style>
   <script>
     window.onload = function() {
-      var urlParams = new URLSearchParams(window.location.search);
-      if (urlParams.has('obrigado')) {
+      if (window.location.pathname.includes("obrigado")) {
         window.location.href = 'https://renanferreirasimoes.github.io/enigma/primeiro.html'; // Substitua 'primeiro.html' pelo nome da sua próxima página
       }
     }
   </script>
 </head>
 <body>
-  <p>Bem vindo(a) ao enigma do Renan. Para passar dos enigmas, basta digitar a resposta no final da URL. Boa sorte!!!
-  <br>Como agradecemos??</p>
+  <p>Bem-vindo(a) ao enigma do Renan. Para passar dos enigmas, basta digitar a resposta no final da URL. Boa sorte!
+  <br> <br>Como agradecemos??</p>
 </body>
 </html>
