@@ -3,7 +3,6 @@
 <head>
   <meta charset="UTF-8">
   <title>Enigma do Renan</title>
-  <link href="https://renanferreirasimoes.github.io/enigma/style.css" rel="stylesheet" />
   <style>
     body {
       font-family: Arial, sans-serif;
@@ -24,14 +23,15 @@
   </style>
   <script>
     window.onload = function() {
-      if (window.location.href.includes("/obrigado")) {
-        window.location.href = 'https://renanferreirasimoes.github.io/enigma/primeiro.html';
+      var urlParams = new URLSearchParams(window.location.search);
+      if (urlParams.has('obrigado')) {
+        window.location.href = 'primeiro.html';
       }
     }
   </script>
 </head>
 <body>
-  <p>Bem-vindo(a) ao enigma do Renan. Para passar dos enigmas, basta digitar a resposta no final da URL. Boa sorte!
-  <br> <br>Como agradecemos??</p>
+  <p>Bem vindo(a) ao enigma do Renan. Para passar dos enigmas, basta digitar uma interrogação seguida da resposta no final da URL. Boa sorte!!!
+  <br>Como agradecemos??</p>
 </body>
 </html>
