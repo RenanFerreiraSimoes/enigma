@@ -6,7 +6,7 @@
   <style>
     body {
       font-family: Arial, sans-serif;
-      background-color: #fff;
+      background-color: #000;
       color: #fff;
       display: flex;
       align-items: center;
@@ -39,7 +39,7 @@
       align-items: center;
       justify-content: center;
       opacity: 1;
-      transition: background-color 0.3s ease, opacity 2s ease;
+      transition: background-color 1s ease, opacity 2s ease;
     }
     
     .overlay.hide {
@@ -195,6 +195,9 @@
           showCurrentPhrase();
         } else {
           showFinalPhrase();
+          setTimeout(function() {
+            document.body.style.backgroundColor = '#fff'; // Altera a cor de fundo para branco
+          }, 1000);
         }
       }
       
@@ -263,7 +266,7 @@
     };
   </script>
 </head>
-<body>
+<body style="background-color: #000;">
   <div id="video-container">
     <iframe width="800" height="450" src="https://www.youtube.com/embed/C1KiHneQhhM?controls=0" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
   </div>
