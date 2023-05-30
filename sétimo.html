@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Último enigma</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #000;
+      color: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      margin: 0;
+      padding: 0;
+    }
+    
+    #video-container {
+      position: relative;
+      width: 800px;
+      height: 450px;
+    }
+    
+    #video-container iframe {
+      width: 100%;
+      height: 100%;
+    }
+    
+    .overlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: #000;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      opacity: 1;
+      transition: background-color 1s ease, opacity 2s ease;
+    }
+    
+    .overlay.hide {
+      opacity: 0;
+      transition: opacity 2s ease;
+    }
+    
+    .overlay-text {
+      font-size: 24px;
+      font-weight: bold;
+      margin-bottom: 20px;
+    }
+    
+    .overlay-text,
+    .overlay-buttons button {
+      color: #fff;
+    }
+    
+    .overlay.clicked {
+      background-color: #ff9999;
+    }
+    
+    .overlay.clicked.hide {
+      background-color: #000;
+    }
+    
+    .overlay-buttons {
+      display: flex;
+      justify-content: center;
+      margin-top: 10px;
+    }
+    
+    .overlay-buttons button {
+      margin: 0 5px;
+      background-color: transparent;
+      border: none;
+      font-size: 18px;
+      font-weight: bold;
+      color: #fff;
+      cursor: pointer;
+    }
+    
+    .heart {
+      font-size: 18px;
+      color: #fff;
+    }
+    
+    .heart-container {
+      display: flex;
+      justify-content: center;
+      margin-top: 10px;
+    }
+    
+    @keyframes fadeOut {
+      0% {
+        opacity: 1;
+      }
+      100% {
+        opacity: 0;
+      }
+    }
+    
+    .fadeOut {
+      animation: fadeOut 2s linear forwards;
+    }
+    
+    .green {
+      background-color: #66ff66 !important;
+    }
+    
+    .red {
+      background-color: #ff6666 !important;
+    }
+  </style>
+  <script>
+    window.onload = function() {
+      var urlParams = new URLSearchParams(window.location.search);
+      if (urlParams.has('resposta7')) {
+        window.location.href = 'oitavo.html';
+      }
+      
+      var videoContainer = document.getElementById('video-container');
+      var overlay = document.createElement('div');
+      overlay.className = 'overlay';
+      var overlayText = document.createElement('p');
+      overlayText.className = 'overlay-text';
+      overlay.appendChild(overlayText);
+      
+      var overlayButtons = document.createElement('div');
+      overlayButtons.className = 'overlay-buttons';
+      
+      var clickCount = 0;
+      var phrases = [
+        { text: 'Você me ama?', yesText: 'Me ama mesmo?', noText: 'Retira o que disse' },
+        { text: 'Me ama mesmo?', yesText: 'Certeza?', noText: 'Retira o que disse' },
+        { text: 'Certeza?', yesText: 'Certeza absoluta?', noText: 'Retira o que disse' },
+        { text: 'Certeza absoluta?', yesText: 'Are you sure?', noText: 'Retira o que disse' },
+        { text: 'Are you sure?', yesText: 'É sério??', noText: 'Retira o que disse' },
+        { text: 'É sério??', yesText: 'Você me odeia?', noText: 'Retira o que disse' },
+        { text: 'Você me odeia?', yesText: 'Quase te peguei nessa né?', noText: 'Retira o que disse' },
+        { text: 'Quase te peguei nessa né?', yesText: 'Eu também te amo', noText: 'Retira o que disse' }
+      ];
+      
+      var currentPhrase = phrases[clickCount];
+      
+      function showCurrentPhrase() {
+        overlayText.textContent = currentPhrase.text;
+        overlayButtons.innerHTML = `
+          <button id="yesButton">Sim</button>
+          <button id="noButton">Não</button>
+        `;
+      }
+      
+      function showNoText() {
+        overlayText.textContent = currentPhrase.noText;
+        overlayButtons.innerHTML = `
+          <button id="okButton">Ok</button>
+        `;
+      }
+      
+      function showFinalPhrase() {
+        overlayText.textContent = 'Eu também te amo';
+        overlayButtons.innerHTML = '';
+        
+        var heartContainer = document.createElement('div');
+        heartContainer.className = 'heart-container';
+        
+        for (var i = 0; i < 3; i++) {
+          var heart = document.createElement('span');
+          heart.className = 'heart';
+          heart.textContent = '♥';
+          heartContainer.appendChild(heart);
+        }
+        
+        overlay.appendChild(heartContainer);
+        
+        setTimeout(function() {
+          overlay.classList.add('fadeOut');
+          
+          setTimeout(function() {
+            overlay.classList.add('hide');
+            overlay.remove(); // Remove o overlay após a frase final
+            proceedToNextPhrase();
+          }, 2000);
+        }, 2000);
+      }
+      
+      function proceedToNextPhrase() {
+        clickCount++;
+        currentPhrase = phrases[clickCount];
+        
+        if (currentPhrase) {
+          showCurrentPhrase();
+        } else {
+          showFinalPhrase();
+          setTimeout(function() {
+            document.body.style.backgroundColor = '#fff'; // Altera a cor de fundo para branco
+          }, 1000);
+        }
+      }
+      
+      overlayButtons.addEventListener('click', function(event) {
+        var target = event.target;
+        
+        if (target.id === 'yesButton') {
+          if (currentPhrase.text === 'Você me odeia?') {
+            overlay.classList.add('red');
+            setTimeout(function() {
+              overlay.classList.remove('red');
+              showNoText();
+            }, 500);
+          } else {
+            overlay.classList.add('green');
+            setTimeout(function() {
+              overlay.classList.remove('green');
+              proceedToNextPhrase();
+            }, 500);
+          }
+        } else if (target.id === 'noButton') {
+          if (currentPhrase.text === 'Você me odeia?') {
+            overlay.classList.add('green');
+            setTimeout(function() {
+              overlay.classList.remove('green');
+              proceedToNextPhrase();
+            }, 500);
+          } else {
+            overlay.classList.add('red');
+            setTimeout(function() {
+              overlay.classList.remove('red');
+              showNoText();
+            }, 500);
+          }
+        } else if (target.id === 'okButton') {
+          overlay.classList.add('green');
+          setTimeout(function() {
+            overlay.classList.remove('green');
+            showCurrentPhrase();
+          }, 500);
+        }
+      });
+      
+      overlay.appendChild(overlayButtons);
+      
+      overlay.addEventListener('click', function() {
+        overlay.classList.add('clicked');
+        
+        setTimeout(function() {
+          overlay.classList.remove('clicked');
+        }, 500);
+        
+        if (!currentPhrase) {
+          overlay.classList.add('hide');
+          
+          setTimeout(function() {
+            overlay.classList.remove('hide');
+            proceedToNextPhrase();
+          }, 2000);
+        }
+      });
+      
+      showCurrentPhrase();
+
+      videoContainer.appendChild(overlay);
+    };
+  </script>
+</head>
+<body style="background-color: #000;">
+  <div id="video-container">
+    <iframe width="800" height="450" src="https://www.youtube.com/watch?v=NL2G2AoSRmo&pp=ygUTaW4gdGhlIG5hbWUgb2YgbG92ZQ%3D%3D?controls=0" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+  </div>
+</body>
+</html>
