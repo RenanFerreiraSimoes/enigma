@@ -3,7 +3,6 @@
 <head>
   <meta charset="UTF-8">
   <title>Enigma do Renan</title>
-  <link href="https://renanferreirasimoes.github.io/enigma/style.css" rel="stylesheet" />
   <style>
     body {
       font-family: Arial, sans-serif;
@@ -12,21 +11,53 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      flex-direction: column;
       height: 100vh;
       margin: 0;
       padding: 0;
     }
 
-    .content {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
+    .container {
       text-align: center;
+      margin-top: -50px;
     }
 
-    .newline {
-      margin-top: 20px;
+    .title {
+      font-size: 20px;
+      margin-bottom: 10px;
+    }
+
+    .input-field {
+      width: 200px;
+      height: 30px;
+      background-color: #000;
+      border-radius: 5px;
+      border: none;
+      outline: none;
+      padding: 5px;
+      color: #fff;
+      transition: color 0.3s ease;
+    }
+
+    .btn {
+      background-color: #000;
+      color: #fff;
+      border: none;
+      outline: none;
+      padding: 8px 16px;
+      border-radius: 5px;
+      cursor: pointer;
+      font-weight: bold;
+      font-size: 14px;
+      transition: background-color 0.3s ease;
+      margin-top: 10px;
+    }
+
+    .btn:hover {
+      background-color: #444;
+    }
+
+    .incorrect-answer {
+      color: red !important;
     }
   </style>
   <script>
@@ -35,13 +66,53 @@
       if (urlParams.has('obrigado')) {
         window.location.href = 'primeiro.html';
       }
+
+      var container = document.createElement('div');
+      container.className = 'container';
+
+      var welcomeText = document.createElement('p');
+      welcomeText.className = 'title';
+      welcomeText.textContent = 'Bem-vindo(a) ao enigma do Renan. Boa sorte!!!';
+      container.appendChild(welcomeText);
+
+      var title = document.createElement('h2');
+      title.className = 'title';
+      title.textContent = 'Como agradecemos???';
+      container.appendChild(title);
+
+      var inputField = document.createElement('input');
+      inputField.className = 'input-field';
+      inputField.placeholder = 'Responda aqui';
+      container.appendChild(inputField);
+
+      var answerButton = document.createElement('button');
+      answerButton.className = 'btn';
+      answerButton.textContent = 'Responder';
+      answerButton.addEventListener('click', handleAnswerClick);
+      container.appendChild(answerButton);
+
+      document.body.appendChild(container);
+    }
+
+    function handleAnswerClick() {
+      var inputField = document.querySelector('.input-field');
+      var inputValue = inputField.value.trim().toLowerCase();
+
+      if (inputValue.toLowerCase() === 'obrigado' || inputValue.toLowerCase() === 'obrigada') {
+        window.location.href = 'primeiro.html';
+      } else {
+        inputField.className = 'input-field incorrect-answer';
+        inputField.addEventListener('input', handleInput);
+      }
+    }
+
+    function handleInput(event) {
+      var inputField = event.target;
+      inputField.className = 'input-field';
+      inputField.removeEventListener('input', handleInput);
     }
   </script>
 </head>
 <body>
-  <div class="content">
-    <p>Bem vindo(a) ao enigma do Renan. Para passar dos enigmas, basta digitar uma interrogação seguida da resposta no final da URL. Boa sorte!!!</p>
-    <p class="newline">Como agradecemos??</p>
-  </div>
 </body>
 </html>
