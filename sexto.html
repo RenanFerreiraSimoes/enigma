@@ -59,6 +59,46 @@
     .white-text {
       color: #fff;
     }
+
+    .input-field-container {
+      display: flex;
+      align-items: center;
+      margin-top: 10px;
+    }
+
+    .input-field {
+      width: 200px;
+      height: 30px;
+      background-color: #000;
+      border-radius: 5px;
+      border: none;
+      outline: none;
+      padding: 5px;
+      color: #fff;
+      transition: color 0.3s ease;
+    }
+
+    .btn {
+      background-color: #000;
+      color: #fff;
+      border: none;
+      outline: none;
+      padding: 8px 16px;
+      border-radius: 5px;
+      cursor: pointer;
+      font-weight: bold;
+      font-size: 14px;
+      transition: background-color 0.3s ease;
+      margin-left: 10px;
+    }
+
+    .btn:hover {
+      background-color: #444;
+    }
+
+    .incorrect-answer {
+      color: red !important;
+    }
   </style>
   <script>
     window.onload = function() {
@@ -69,6 +109,32 @@
 
       var container = document.createElement('div');
       container.className = 'container';
+
+      var title = document.createElement('h2');
+      title.className = 'title';
+      title.textContent = 'Caça ao tesouro';
+      container.appendChild(title);
+
+      var message1 = document.createElement('p');
+      message1.className = 'message';
+      message1.textContent = 'Às vezes é bom esperar, nem que seja 1 segundo';
+      container.appendChild(message1);
+
+      var inputFieldContainer = document.createElement('div');
+      inputFieldContainer.className = 'input-field-container';
+
+      var inputField = document.createElement('input');
+      inputField.className = 'input-field';
+      inputField.placeholder = 'Responda aqui';
+      inputFieldContainer.appendChild(inputField);
+
+      var answerButton = document.createElement('button');
+      answerButton.className = 'btn';
+      answerButton.textContent = 'Responder';
+      answerButton.addEventListener('click', handleAnswerClick);
+      inputFieldContainer.appendChild(answerButton);
+
+      container.appendChild(inputFieldContainer);
 
       var crossword = document.createElement('div');
       crossword.className = 'crossword';
@@ -98,49 +164,57 @@
       cells[5][5].textContent = 'R';
 
       container.appendChild(crossword);
+
       document.body.appendChild(container);
 
-      var message2 = document.createElement('p');
-      message2.className = 'message white-text';
-      message2.textContent = 'Caça ao tesouro';
-      document.body.insertBefore(message2, container);
+      var timer;
+      var currentCell;
+      var originalContent;
 
-      var message1 = document.createElement('p');
-      message1.className = 'message';
-      message1.textContent = 'Às vezes é bom esperar, nem que seja 1 segundo';
-      document.body.insertBefore(message1, container);
-    }
+      function handleCellMouseOver(event) {
+        clearTimeout(timer);
 
-    var timer;
-    var currentCell;
-    var originalContent;
+        var cell = event.target;
+        currentCell = cell;
+        originalContent = cell.textContent;
 
-    function handleCellMouseOver(event) {
-      clearTimeout(timer);
-
-      var cell = event.target;
-      currentCell = cell;
-      originalContent = cell.textContent;
-
-      timer = setTimeout(function() {
-        var content = cell.textContent;
-        if (content === 'A' || content === 'M' || content === 'O' || content === 'R') {
-          cell.textContent = 'X';
-        }
-      }, 1000);
-    }
-
-    function handleCellMouseOut(event) {
-      clearTimeout(timer);
-
-      if (currentCell) {
-        currentCell.textContent = originalContent;
+        timer = setTimeout(function() {
+          var content = cell.textContent;
+          if (content === 'A' || content === 'M' || content === 'O' || content === 'R') {
+            cell.textContent = 'X';
+          }
+        }, 1000);
       }
-    }
 
-    function getRandomLetter() {
-      var alphabet = 'bcdefghijklnpqstuvwyz';
-      return alphabet.charAt(Math.floor(Math.random() * alphabet.length)).toUpperCase();
+      function handleCellMouseOut(event) {
+        clearTimeout(timer);
+
+        if (currentCell) {
+          currentCell.textContent = originalContent;
+        }
+      }
+
+      function handleAnswerClick() {
+        var inputValue = inputField.value.trim();
+
+        if (inputValue.toLowerCase() === 'amor') {
+          window.location.href = 'sétimo.html?amor';
+        } else {
+          inputField.className = 'input-field incorrect-answer';
+          inputField.addEventListener('input', handleInput);
+        }
+      }
+
+      function handleInput(event) {
+        var inputField = event.target;
+        inputField.className = 'input-field';
+        inputField.removeEventListener('input', handleInput);
+      }
+
+      function getRandomLetter() {
+        var alphabet = 'bcdefghijklnpqstuvwyz';
+        return alphabet.charAt(Math.floor(Math.random() * alphabet.length)).toUpperCase();
+      }
     }
   </script>
 </head>
