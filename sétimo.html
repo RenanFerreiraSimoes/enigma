@@ -2,7 +2,7 @@
 <html>
 <head>
   <meta charset="UTF-8">
-  <title>Último enigma</title>
+  <title>Sétimo</title>
   <style>
     body {
       font-family: Arial, sans-serif;
@@ -15,260 +15,105 @@
       margin: 0;
       padding: 0;
     }
-    
-    #video-container {
-      position: relative;
-      width: 800px;
-      height: 450px;
-    }
-    
-    #video-container iframe {
-      width: 100%;
-      height: 100%;
-    }
-    
-    .overlay {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background-color: #000;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      opacity: 1;
-      transition: background-color 1s ease, opacity 2s ease;
-    }
-    
-    .overlay.hide {
-      opacity: 0;
-      transition: opacity 2s ease;
-    }
-    
-    .overlay-text {
-      font-size: 24px;
-      font-weight: bold;
+
+    .container {
+      text-align: center;
       margin-bottom: 20px;
     }
-    
-    .overlay-text,
-    .overlay-buttons button {
-      color: #fff;
-    }
-    
-    .overlay.clicked {
-      background-color: #ff9999;
-    }
-    
-    .overlay.clicked.hide {
+
+    .input-field {
+      width: 200px;
+      height: 30px;
       background-color: #000;
-    }
-    
-    .overlay-buttons {
-      display: flex;
-      justify-content: center;
-      margin-top: 10px;
-    }
-    
-    .overlay-buttons button {
-      margin: 0 5px;
-      background-color: transparent;
+      border-radius: 5px;
       border: none;
-      font-size: 18px;
-      font-weight: bold;
+      outline: none;
+      padding: 5px;
       color: #fff;
-      cursor: pointer;
+      transition: color 0.3s ease;
     }
-    
-    .heart {
-      font-size: 18px;
+
+    .message {
       color: #fff;
-    }
-    
-    .heart-container {
-      display: flex;
-      justify-content: center;
+      font-size: 12px;
       margin-top: 10px;
     }
-    
-    @keyframes fadeOut {
-      0% {
-        opacity: 1;
-      }
-      100% {
-        opacity: 0;
-      }
+
+    .btn {
+      background-color: #000;
+      color: #fff;
+      border: none;
+      outline: none;
+      padding: 8px 16px;
+      border-radius: 5px;
+      cursor: pointer;
+      font-weight: bold;
+      font-size: 14px;
+      transition: background-color 0.3s ease;
+      margin-top: 10px;
     }
-    
-    .fadeOut {
-      animation: fadeOut 2s linear forwards;
+
+    .btn:hover {
+      background-color: #444;
     }
-    
-    .green {
-      background-color: #66ff66 !important;
-    }
-    
-    .red {
-      background-color: #ff6666 !important;
+
+    .incorrect-answer {
+      color: red !important;
     }
   </style>
   <script>
     window.onload = function() {
       var urlParams = new URLSearchParams(window.location.search);
-      if (urlParams.has('resposta7')) {
+      if (urlParams.has('you')) {
         window.location.href = 'oitavo.html';
       }
-      
-      var videoContainer = document.getElementById('video-container');
-      var overlay = document.createElement('div');
-      overlay.className = 'overlay';
-      var overlayText = document.createElement('p');
-      overlayText.className = 'overlay-text';
-      overlay.appendChild(overlayText);
-      
-      var overlayButtons = document.createElement('div');
-      overlayButtons.className = 'overlay-buttons';
-      
-      var clickCount = 0;
-      var phrases = [
-        { text: 'Você me ama?', yesText: 'Me ama mesmo?', noText: 'Retira o que disse' },
-        { text: 'Me ama mesmo?', yesText: 'Certeza?', noText: 'Retira o que disse' },
-        { text: 'Certeza?', yesText: 'Certeza absoluta?', noText: 'Retira o que disse' },
-        { text: 'Certeza absoluta?', yesText: 'Are you sure?', noText: 'Retira o que disse' },
-        { text: 'Are you sure?', yesText: 'É sério??', noText: 'Retira o que disse' },
-        { text: 'É sério??', yesText: 'Você me odeia?', noText: 'Retira o que disse' },
-        { text: 'Você me odeia?', yesText: 'Quase te peguei nessa né?', noText: 'Retira o que disse' },
-        { text: 'Quase te peguei nessa né?', yesText: 'Eu também te amo', noText: 'Retira o que disse' }
-      ];
-      
-      var currentPhrase = phrases[clickCount];
-      
-      function showCurrentPhrase() {
-        overlayText.textContent = currentPhrase.text;
-        overlayButtons.innerHTML = `
-          <button id="yesButton">Sim</button>
-          <button id="noButton">Não</button>
-        `;
-      }
-      
-      function showNoText() {
-        overlayText.textContent = currentPhrase.noText;
-        overlayButtons.innerHTML = `
-          <button id="okButton">Ok</button>
-        `;
-      }
-      
-      function showFinalPhrase() {
-        overlayText.textContent = 'Eu também te amo';
-        overlayButtons.innerHTML = '';
-        
-        var heartContainer = document.createElement('div');
-        heartContainer.className = 'heart-container';
-        
-        for (var i = 0; i < 3; i++) {
-          var heart = document.createElement('span');
-          heart.className = 'heart';
-          heart.textContent = '♥';
-          heartContainer.appendChild(heart);
-        }
-        
-        overlay.appendChild(heartContainer);
-        
-        setTimeout(function() {
-          overlay.classList.add('fadeOut');
-          
-          setTimeout(function() {
-            overlay.classList.add('hide');
-            overlay.remove(); // Remove o overlay após a frase final
-            proceedToNextPhrase();
-          }, 2000);
-        }, 2000);
-      }
-      
-      function proceedToNextPhrase() {
-        clickCount++;
-        currentPhrase = phrases[clickCount];
-        
-        if (currentPhrase) {
-          showCurrentPhrase();
-        } else {
-          showFinalPhrase();
-          setTimeout(function() {
-            document.body.style.backgroundColor = '#fff'; // Altera a cor de fundo para branco
-          }, 1000);
-        }
-      }
-      
-      overlayButtons.addEventListener('click', function(event) {
-        var target = event.target;
-        
-        if (target.id === 'yesButton') {
-          if (currentPhrase.text === 'Você me odeia?') {
-            overlay.classList.add('red');
-            setTimeout(function() {
-              overlay.classList.remove('red');
-              showNoText();
-            }, 500);
-          } else {
-            overlay.classList.add('green');
-            setTimeout(function() {
-              overlay.classList.remove('green');
-              proceedToNextPhrase();
-            }, 500);
-          }
-        } else if (target.id === 'noButton') {
-          if (currentPhrase.text === 'Você me odeia?') {
-            overlay.classList.add('green');
-            setTimeout(function() {
-              overlay.classList.remove('green');
-              proceedToNextPhrase();
-            }, 500);
-          } else {
-            overlay.classList.add('red');
-            setTimeout(function() {
-              overlay.classList.remove('red');
-              showNoText();
-            }, 500);
-          }
-        } else if (target.id === 'okButton') {
-          overlay.classList.add('green');
-          setTimeout(function() {
-            overlay.classList.remove('green');
-            showCurrentPhrase();
-          }, 500);
-        }
-      });
-      
-      overlay.appendChild(overlayButtons);
-      
-      overlay.addEventListener('click', function() {
-        overlay.classList.add('clicked');
-        
-        setTimeout(function() {
-          overlay.classList.remove('clicked');
-        }, 500);
-        
-        if (!currentPhrase) {
-          overlay.classList.add('hide');
-          
-          setTimeout(function() {
-            overlay.classList.remove('hide');
-            proceedToNextPhrase();
-          }, 2000);
-        }
-      });
-      
-      showCurrentPhrase();
 
-      videoContainer.appendChild(overlay);
-    };
+      var container = document.createElement('div');
+      container.className = 'container';
+
+      var squareText = document.createElement('p');
+      squareText.className = 'square-text';
+      squareText.textContent = 'Você achou o tesouro, mas eu ainda quero o ouro, só que sem o "A"';
+      container.appendChild(squareText);
+
+      var inputField = document.createElement('input');
+      inputField.className = 'input-field';
+      inputField.placeholder = 'Responda aqui';
+      container.appendChild(inputField);
+
+      var answerButton = document.createElement('button');
+      answerButton.className = 'btn';
+      answerButton.textContent = 'Responder';
+      answerButton.addEventListener('click', handleAnswerClick);
+      container.appendChild(answerButton);
+
+      var message = document.createElement('p');
+      message.className = 'message';
+      message.textContent = 'Às vezes o português não é necessário';
+      container.appendChild(message);
+
+      document.body.appendChild(container);
+    }
+
+    function handleAnswerClick() {
+      var inputField = document.querySelector('.input-field');
+      var inputValue = inputField.value.trim().toLowerCase();
+
+      if (inputValue === 'you') {
+        window.location.href = 'oitavo.html';
+      } else {
+        inputField.className = 'input-field incorrect-answer';
+        inputField.addEventListener('input', handleInput);
+      }
+    }
+
+    function handleInput(event) {
+      var inputField = event.target;
+      inputField.className = 'input-field';
+      inputField.removeEventListener('input', handleInput);
+    }
   </script>
 </head>
-<body style="background-color: #000;">
-  <div id="video-container">
-    <iframe width="800" height="450" src="https://www.youtube.com/embed/C1KiHneQhhM?controls=0" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-  </div>
+<body>
 </body>
 </html>
