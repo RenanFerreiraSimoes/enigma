@@ -77,6 +77,14 @@
       var container = document.createElement('div');
       container.className = 'container';
 
+      var audioPlayer = document.createElement('audio');
+      audioPlayer.controls = true;
+      var audioSource = document.createElement('source');
+      audioSource.src = '.mp3';
+      audioSource.type = 'audio/mpeg';
+      audioPlayer.appendChild(audioSource);
+      container.appendChild(audioPlayer);
+
       var textElement = document.createElement('p');
       textElement.innerHTML = 'ognimod<br>adnuges<br>açret<br>atrauq<br>atniuq<br>???<br>odabás';
       container.appendChild(textElement);
