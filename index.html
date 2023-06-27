@@ -70,14 +70,22 @@
       var container = document.createElement('div');
       container.className = 'container';
 
+      var audioPlayer = document.createElement('audio');
+      audioPlayer.controls = true;
+      var audioSource = document.createElement('source');
+      audioSource.src = 'Eu tbm to de preto, ta.mp3';
+      audioSource.type = 'audio/mpeg';
+      audioPlayer.appendChild(audioSource);
+      container.appendChild(audioPlayer);
+
       var welcomeText = document.createElement('p');
       welcomeText.className = 'title';
-      welcomeText.textContent = 'Bem-vindo(a) ao enigma do Renan. Boa sorte!!!';
+      welcomeText.textContent = 'Bem-vindo(a) ao enigma do Renan. Ouça os áudios e boa sorte!!!';
       container.appendChild(welcomeText);
 
       var title = document.createElement('h2');
       title.className = 'title';
-      title.textContent = 'Como agradecemos???';
+      title.textContent = '↪ Como agradecemos??? ↩';
       container.appendChild(title);
 
       var inputField = document.createElement('input');
