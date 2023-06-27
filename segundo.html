@@ -70,9 +70,17 @@
       var container = document.createElement('div');
       container.className = 'container';
 
+      var audioPlayer = document.createElement('audio');
+      audioPlayer.controls = true;
+      var audioSource = document.createElement('source');
+      audioSource.src = '.mp3';
+      audioSource.type = 'audio/mpeg';
+      audioPlayer.appendChild(audioSource);
+      container.appendChild(audioPlayer);
+
       var title = document.createElement('h2');
       title.className = 'title';
-      title.textContent = '2 + 2 x 2';
+      title.textContent = '↪ 2 + 2 x 2 ↩';
       container.appendChild(title);
 
       var inputField = document.createElement('input');
