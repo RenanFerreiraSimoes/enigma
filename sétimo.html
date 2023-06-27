@@ -71,6 +71,14 @@
       var container = document.createElement('div');
       container.className = 'container';
 
+      var audioPlayer = document.createElement('audio');
+      audioPlayer.controls = true;
+      var audioSource = document.createElement('source');
+      audioSource.src = '.mp3';
+      audioSource.type = 'audio/mpeg';
+      audioPlayer.appendChild(audioSource);
+      container.appendChild(audioPlayer);
+
       var squareText = document.createElement('p');
       squareText.className = 'square-text';
       squareText.textContent = 'Você achou o tesouro, mas eu ainda quero o ouro, só que sem o "A"';
